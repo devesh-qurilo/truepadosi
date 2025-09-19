@@ -21,7 +21,7 @@ const logo = require("../../assets/images/logo.png");
 const background = require("../../assets/images/3d0b0760-ce28-4a8d-8036-1d43c1bdd630.png");
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("sharmakrish1gdgdg71@gmail.com");
+  const [email, setEmail] = useState("sharmakrish1gdgdvhvjg71@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [keepSignedIn, setKeepSignedIn] = useState(true);
   const dispatch = useAppDispatch();
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   topBackgroundContainer: {
-    height: 200,
+    height: 300,
     position: "relative",
   },
   topBackgroundImage: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   logoGradient: {
     position: "absolute",
     width: "100%", // Adjust size as needed
-    height: 180,
+    height: 300,
     borderRadius: 9, // Half of width/height for circular gradient
     justifyContent: "center",
     alignItems: "center",

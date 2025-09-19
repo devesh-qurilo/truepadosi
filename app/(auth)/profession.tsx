@@ -1,6 +1,6 @@
-import { Image, ImageBackground } from 'expo-image';
-import { useRouter } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import { Image, ImageBackground } from "expo-image";
+import { useRouter } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -11,31 +11,36 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { clearProfessionError, submitProfessionRequest } from '../../src/slices/professionSlice';
-import { useAppDispatch, useAppSelector } from '../../src/store/hooks';
+} from "react-native";
+import {
+  clearProfessionError,
+  submitProfessionRequest,
+} from "../../src/slices/professionSlice";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 
 // ✅ Import your assets
-const logo = require('../../assets/images/logo.png');
-const background = require('../../assets/images/3d0b0760-ce28-4a8d-8036-1d43c1bdd630.png');
+const logo = require("../../assets/images/logo.png");
+const background = require("../../assets/images/3d0b0760-ce28-4a8d-8036-1d43c1bdd630.png");
 
 export default function ProfessionScreen() {
   const [formData, setFormData] = useState({
-    profession: '',
-    hourlyCharge: '',
+    profession: "",
+    hourlyCharge: "",
   });
-  
+
   const dispatch = useAppDispatch();
   const router = useRouter();
   const isLoading = useAppSelector((state) => state.profession.isLoading);
   const error = useAppSelector((state) => state.profession.error);
-  const professionSubmitted = useAppSelector((state) => state.profession.professionSubmitted);
-  
+  const professionSubmitted = useAppSelector(
+    (state) => state.profession.professionSubmitted
+  );
+
   const hasNavigated = useRef(false);
 
   useEffect(() => {
     if (error) {
-      Alert.alert('Profession Error', error);
+      Alert.alert("Profession Error", error);
       dispatch(clearProfessionError());
     }
   }, [error, dispatch]);
@@ -43,14 +48,14 @@ export default function ProfessionScreen() {
   useEffect(() => {
     if (professionSubmitted && !hasNavigated.current) {
       hasNavigated.current = true;
-      router.replace('/(tabs)');
+      router.replace("/(auth)/verification");
     }
   }, [professionSubmitted, router]);
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -58,22 +63,24 @@ export default function ProfessionScreen() {
     const { profession, hourlyCharge } = formData;
 
     if (!profession || !hourlyCharge) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
     // Convert hourlyCharge to number
     const hourlyChargeNumber = parseFloat(hourlyCharge);
-    
+
     if (isNaN(hourlyChargeNumber) || hourlyChargeNumber <= 0) {
-      Alert.alert('Error', 'Please enter a valid hourly charge');
+      Alert.alert("Error", "Please enter a valid hourly charge");
       return;
     }
 
-    dispatch(submitProfessionRequest({
-      profession,
-      hourlyCharge: hourlyChargeNumber
-    }));
+    dispatch(
+      submitProfessionRequest({
+        profession,
+        hourlyCharge: hourlyChargeNumber,
+      })
+    );
   };
 
   return (
@@ -96,10 +103,10 @@ export default function ProfessionScreen() {
       {/* Main Content */}
       <View style={styles.contentContainer}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardContainer}
         >
-          <ScrollView 
+          <ScrollView
             contentContainerStyle={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
@@ -115,7 +122,7 @@ export default function ProfessionScreen() {
               <TextInput
                 style={styles.input}
                 value={formData.profession}
-                onChangeText={(value) => handleInputChange('profession', value)}
+                onChangeText={(value) => handleInputChange("profession", value)}
                 placeholder="e.g., Software Developer, Designer, Consultant"
                 placeholderTextColor="#9CA3AF"
               />
@@ -127,7 +134,9 @@ export default function ProfessionScreen() {
               <TextInput
                 style={styles.input}
                 value={formData.hourlyCharge}
-                onChangeText={(value) => handleInputChange('hourlyCharge', value)}
+                onChangeText={(value) =>
+                  handleInputChange("hourlyCharge", value)
+                }
                 keyboardType="numeric"
                 placeholder="e.g., 1500"
                 placeholderTextColor="#9CA3AF"
@@ -137,19 +146,22 @@ export default function ProfessionScreen() {
 
               {/* Submit Button */}
               <TouchableOpacity
-                style={[styles.submitButton, isLoading && styles.submitButtonDisabled]}
+                style={[
+                  styles.submitButton,
+                  isLoading && styles.submitButtonDisabled,
+                ]}
                 onPress={handleSubmitProfession}
                 disabled={isLoading}
               >
                 <Text style={styles.submitButtonText}>
-                  {isLoading ? 'Saving...' : 'Save Profession'}
+                  {isLoading ? "Saving..." : "Save Profession"}
                 </Text>
               </TouchableOpacity>
 
               {/* Skip for now button */}
               <TouchableOpacity
                 style={styles.skipButton}
-                onPress={() => router.replace('/(tabs)/home')}
+                onPress={() => router.replace("/(tabs)/home")}
                 disabled={isLoading}
               >
                 <Text style={styles.skipButtonText}>Skip for now</Text>
@@ -165,19 +177,19 @@ export default function ProfessionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
   topBackgroundContainer: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
   },
   topBackgroundImage: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
     opacity: 0.5,
   },
   logoImage: {
@@ -187,7 +199,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    backgroundColor: '#F7F7F7',
+    backgroundColor: "#F7F7F7",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     marginTop: -24,
@@ -202,69 +214,69 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 32,
   },
   title: {
     fontSize: 24,
-    fontWeight: '600',
-    color: '#374151',
+    fontWeight: "600",
+    color: "#374151",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: '#6B7280',
-    textAlign: 'center',
+    color: "#6B7280",
+    textAlign: "center",
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
   },
   sectionLabel: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#374151',
+    fontWeight: "600",
+    color: "#374151",
     marginBottom: 8,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderColor: "#D1D5DB",
     borderRadius: 12,
     paddingHorizontal: 16,
     fontSize: 16,
-    backgroundColor: '#FFFFFF',
-    color: '#374151',
+    backgroundColor: "#FFFFFF",
+    color: "#374151",
   },
   spacer: {
     height: 24,
   },
   submitButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: "#8B5CF6",
     height: 50,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 16,
   },
   submitButtonDisabled: {
-    backgroundColor: '#A78BFA',
+    backgroundColor: "#A78BFA",
   },
   submitButtonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   skipButton: {
     height: 50,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderColor: "#D1D5DB",
   },
   skipButtonText: {
-    color: '#6B7280',
+    color: "#6B7280",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

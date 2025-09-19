@@ -31,8 +31,8 @@ export default function AuthLayout() {
         animation: "fade",
       }}
     >
-      <Stack.Screen name="login" />
       <Stack.Screen name="register" />
+      <Stack.Screen name="login" />
       <Stack.Screen name="communityAddress" />
       <Stack.Screen name="verification" />
       <Stack.Screen name="profession" />

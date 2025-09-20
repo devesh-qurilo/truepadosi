@@ -53,7 +53,7 @@ export default function VerificationScreen() {
   useEffect(() => {
     if (verificationSubmitted && !hasNavigated.current) {
       hasNavigated.current = true;
-      router.replace("/(tabs)/event");
+      router.replace("/(tabs)");
     }
   }, [verificationSubmitted, router]);
 

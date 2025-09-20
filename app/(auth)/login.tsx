@@ -21,12 +21,13 @@ const logo = require("../../assets/images/logo.png");
 const background = require("../../assets/images/3d0b0760-ce28-4a8d-8036-1d43c1bdd630.png");
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("sharmakrish1gdgdvhvjg71@gmail.com");
-  const [password, setPassword] = useState("12345678");
+  const router = useRouter();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isLoading = useAppSelector((state) => state.auth.isLoading);
+  const [email, setEmail] = useState("devesh@gmail.com");
+  const [password, setPassword] = useState("Password123!");
   const [keepSignedIn, setKeepSignedIn] = useState(true);
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const isLoading = useAppSelector((state) => state.auth.isLoading);
   const error = useAppSelector((state) => state.auth.error);
 
   useEffect(() => {
@@ -55,6 +56,13 @@ export default function LoginScreen() {
       "Google authentication will be implemented soon"
     );
   };
+
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      // Navigate to tab screen after successful login
+      router.replace("/(tabs)"); // or whatever your tab screen route is
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   return (
     <View style={styles.container}>
